@@ -1,35 +1,33 @@
 import {useState} from "react"
+import {Draggable} from 'react-beautiful-dnd';
 const states = ["EDIT", "PREVIEW"]
 
-function Post () {
+function Post ({id, content, index, handleEdit, handleRemove}) {
     const [edit, setEdit] = useState(true)
-    const [content, setContent] = useState("Edit me")
+    const [state, setState] = useState(content)
 
     function toggle(){
         setEdit(!edit)
     }
 
     return (
-        <form className="form"  onSubmit={e => {
-            e.preventDefault()
-            toggle()
-        }}>
-        {
-            edit && 
-            <div class="form-group row flex-center">
-                <label for="large-input">New Item</label>
-                <input id="input-block" placeholder="Large input" 
-                    onChange={e => setContent(e.target.value)}
-                    className="col sm-12"
-                    value={content} />
-                <button type="submit">Add</button>
-            </div> 
-        }
-        {
-            !edit &&
-            <button className="btn-block">{content}</button>
-        }
-        </form>
+        <Draggable draggableId={id} index={index}>
+        {provided => (
+            <div
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            ref={provided.innerRef}
+            >
+            {!edit && <div className="btn-block btn">{content}</div>}
+            {edit && <form className="form"  onSubmit={e => {
+                e.preventDefault()
+                // toggle()
+            }}>
+                <input type="text" value={content} onChange={() => handleEdit(id, content)}/>
+            </form>}
+            </div>
+        )}
+        </Draggable>
     );
 }
 
