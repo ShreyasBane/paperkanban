@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import "papercss/dist/paper.min.css"
 import Board from './components/board';
