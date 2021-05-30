@@ -1,25 +1,15 @@
-import {useState} from "react"
+import {useState} from "react";
 import Post from "../post";
-import {Droppable} from "react-beautiful-dnd";
 
-function Board ({board, posts, handleAdd, handleEdit, handleRemove}) {
+function Board ({board, posts, handlePostAdd, handlePostEdit, handlePostRemove}) {
     return (
     <div className='container-sm border border-primary'>
         <h4>{board.title}</h4>
-        <Droppable droppableId={board.id}>
-            {(provided) => (
-                <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}>
-                {board.postIDs
-                    .map((id, index) => 
-                        <Post content={posts[id].content} id={id} index={index} 
-                        key={index} handleEdit={handleEdit} handleRemove={handleRemove}/>)}
-                {provided.placeholder}
-                </div>
-            )}
-        </Droppable>
-        <button className="btn-block">Add New Task</button>
+            {board.postIDs
+                .map((id, index) => 
+                    <Post content={posts[id].content} id={id} boardId={board.id} 
+                    key={index} handlePostEdit={handlePostEdit} handlePostRemove={handlePostRemove}/>)}
+        <button className="btn-block" onClick={() => handlePostAdd(board.id)}>Add New Task</button>
     </div>
     );
 }

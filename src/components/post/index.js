@@ -1,9 +1,8 @@
 import {useState} from "react"
-import {Draggable} from 'react-beautiful-dnd';
 const states = ["EDIT", "PREVIEW"]
 
-function Post ({id, content, index, handleEdit, handleRemove}) {
-    const [edit, setEdit] = useState(true)
+function Post ({id, content, boardId, handlePostEdit, handlePostRemove}) {
+    const [edit, setEdit] = useState(false)
     const [state, setState] = useState(content)
 
     function toggle(){
@@ -11,24 +10,21 @@ function Post ({id, content, index, handleEdit, handleRemove}) {
     }
 
     return (
-        <Draggable draggableId={id} index={index}>
-        {provided => (
-            <div
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-            ref={provided.innerRef}
-            >
-            {!edit && <div className="btn-block btn">{content}</div>}
-            {edit && <form className="form"  onSubmit={e => {
+        <div className='row'>
+            {!edit && <button className="col btn-block col-10" onClick={() => toggle()}>{content}</button>}
+            {edit && <form className="col form col-10"  onSubmit={e => {
                 e.preventDefault()
-                // toggle()
+                toggle()
             }}>
-                <input type="text" value={content} onChange={() => handleEdit(id, content)}/>
+                <input autoFocus type="text" style={{height: '100%'}} value={state} 
+                onChange={(e) => {
+                    setState(e.target.value)
+                    handlePostEdit(id, e.target.value)
+                }}/>
             </form>}
-            </div>
-        )}
-        </Draggable>
-    );
+            <button className="col col-2" onClick={() => handlePostRemove(id, boardId)}>X</button>
+        </div>
+        )
 }
 
 export default Post;
