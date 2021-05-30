@@ -61,7 +61,7 @@ function App() {
   }
 
   return (
-    <div className="App container-lg margin">
+    <div className="App container-lg margin text-center">
       <h1>Paper Kanban</h1>
       <form className="form-group row flex-spaces" onSubmit={(e) => {
         e.preventDefault()
