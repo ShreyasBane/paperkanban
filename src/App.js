@@ -1,4 +1,3 @@
-import './App.css';
 import "papercss/dist/paper.min.css"
 import Board from './components/board';
 import Post from './components/post';
